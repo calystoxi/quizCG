@@ -1,4 +1,4 @@
-﻿import React from "react";
+import React from "react";
 import "./QuestionCard.css";
 
 export default function QuestionCard({ question, answers, selected, focused, onSelect }) {

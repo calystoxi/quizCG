@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 export default function useGamepadControls(onNext, onSelectUp, onSelectDown) {
   const lastPressedTime = useRef(0);
