@@ -1,0 +1,77 @@
+﻿.card {
+  background: var(--card-bg);
+  color: var(--card-text);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgb(0 0 0 / 0.1);
+  max-width: 600px;
+  margin: 20px auto;
+  text-align: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h2, h3 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: var(--text-color);
+}
+
+.answers,
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.answer-button {
+  text-align: left;
+  padding: 12px 20px;
+  font-size: 1.1rem;
+  border: 2px solid var(--accent-color);
+  border-radius: 8px;
+  background: var(--card-bg);
+  color: var(--card-text);
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.answer-button:hover:not(:disabled),
+.answer-button.focused {
+  background-color: var(--bg-gradient-end);
+}
+
+.answer-button.selected {
+  background-color: var(--accent-color);
+  color: white;
+  cursor: default;
+}
+
+.answer-button.disabled,
+.answer-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.next-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.next-button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.next-button:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+

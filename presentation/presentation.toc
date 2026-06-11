@@ -1,0 +1,10 @@
+\babel@toc {french}{}\relax 
+\beamer@sectionintoc {1}{Présentation du projet}{3}{0}{1}
+\beamer@sectionintoc {2}{Frontend : React}{5}{0}{2}
+\beamer@sectionintoc {3}{Navigation : React Router DOM}{7}{0}{3}
+\beamer@sectionintoc {4}{Requêtes HTTP : Axios}{8}{0}{4}
+\beamer@sectionintoc {5}{API de données : Open Trivia DB}{9}{0}{5}
+\beamer@sectionintoc {6}{État global : Context API}{11}{0}{6}
+\beamer@sectionintoc {7}{Theming \& i18n}{12}{0}{7}
+\beamer@sectionintoc {8}{Manette : Gamepad API}{14}{0}{8}
+\beamer@sectionintoc {9}{Bilan}{15}{0}{9}

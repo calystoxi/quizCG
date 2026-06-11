@@ -1,0 +1,25 @@
+\frametitle{Variables CSS pour le mode sombre}
+\textbf{Approche} : variables CSS (\texttt{--bg-color}, \texttt{--text-color}, \texttt{--accent-color}...) redéfinies sous \texttt{[data-theme="dark"]}.
+
+  \begin{lstlisting}
+:root { --bg-color: #f0f4ff; --text-color: #2c3e50; }
+[data-theme="dark"] { --bg-color: #1a1d24; --text-color: #f0f0f0; }
+  \end{lstlisting}
+
+  \vspace{0.3cm}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \textbf{Avantages}
+      \begin{itemize}
+        \item Pas de librairie CSS-in-JS
+        \item Changement de thème instantané (1 attribut HTML)
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \textbf{Inconvénients}
+      \begin{itemize}
+        \item Nécessite de revoir toutes les couleurs codées en dur
+        \item Pas de typage / autocomplétion
+      \end{itemize}
+    \end{column}
+  \end{columns}

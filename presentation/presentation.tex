@@ -1,0 +1,368 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usepackage{fontspec}
+\usepackage[french]{babel}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+
+\definecolor{codebg}{RGB}{245,245,245}
+\lstset{
+  basicstyle=\ttfamily\footnotesize,
+  backgroundcolor=\color{codebg},
+  breaklines=true,
+  frame=single,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray}
+}
+
+\title{Quiz de Culture Générale}
+\subtitle{Présentation technique du projet}
+\author{Antoine Aubry}
+\institute{HEIG-VD}
+\date{\today}
+
+\begin{document}
+
+% ================================
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% ================================
+\begin{frame}{Plan}
+  \tableofcontents
+\end{frame}
+
+% ================================
+\section{Présentation du projet}
+
+\begin{frame}{Le projet en bref}
+  \begin{itemize}
+    \item Application web de quiz de culture générale (SPA)
+    \item L'utilisateur choisit une \textbf{catégorie} et une \textbf{difficulté}
+    \item 10 questions à choix multiple, \textbf{temps limité} par question
+    \item Score final + \textbf{récapitulatif détaillé} des réponses
+    \item Personnalisation : \textbf{thème} clair/sombre, \textbf{langue} FR/EN, support \textbf{manette}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Architecture globale}
+  \begin{center}
+  \begin{lstlisting}
+Utilisateur <-> React (SPA) <-> Open Trivia DB (API REST)
+                  |
+                  +-- localStorage (theme, langue)
+  \end{lstlisting}
+  \end{center}
+  \vspace{0.5cm}
+  \begin{itemize}
+    \item Application 100\% \textbf{côté client} (pas de backend propre)
+    \item Toutes les données viennent d'une API publique externe
+    \item Les préférences (thème/langue) sont persistées localement
+  \end{itemize}
+\end{frame}
+
+% ================================
+\section{Frontend : React}
+
+\begin{frame}{React}
+  \textbf{Qu'est-ce que c'est ?} Bibliothèque JavaScript pour construire des interfaces utilisateur basées sur des composants.
+
+  \vspace{0.3cm}
+  \textbf{Pourquoi ce choix ?}
+  \begin{itemize}
+    \item Très répandu, large écosystème et documentation
+    \item Modèle par composants : découpage naturel (Quiz, QuestionCard, Setup, Home...)
+    \item Hooks (\texttt{useState}, \texttt{useEffect}, \texttt{useContext}) pour gérer état et effets de bord
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{React : avantages / inconvénients}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \textbf{Avantages}
+      \begin{itemize}
+        \item Re-rendu efficace via le DOM virtuel
+        \item Composants réutilisables et testables
+        \item Communauté énorme, beaucoup de ressources
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \textbf{Inconvénients}
+      \begin{itemize}
+        \item Courbe d'apprentissage (JSX, hooks, cycle de vie)
+        \item Beaucoup de \og boilerplate \fg{} pour des apps simples
+        \item Pièges classiques : dépendances de \texttt{useEffect}, \textit{stale state}
+      \end{itemize}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.3cm}
+  \textbf{Ce que j'ai appris} : la gestion fine des \texttt{useEffect} (ex. bug du timer où un effet lisait un état \og périmé \fg{} lors du changement de question).
+\end{frame}
+
+% ================================
+\section{Navigation : React Router DOM}
+
+\begin{frame}{React Router DOM}
+  \textbf{Qu'est-ce que c'est ?} Librairie de routage côté client pour les SPA React.
+
+  \vspace{0.3cm}
+  \textbf{Pourquoi ce choix ?}
+  \begin{itemize}
+    \item Standard de facto pour React
+    \item Permet 3 pages distinctes (\texttt{/}, \texttt{/setup}, \texttt{/quiz}) sans rechargement
+    \item \texttt{useSearchParams} : transmettre catégorie/difficulté via l'URL
+    \item \texttt{useNavigate} : redirections programmatiques (rejouer, changer de paramètres)
+  \end{itemize}
+
+  \vspace{0.3cm}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \textbf{Avantages}
+      \begin{itemize}
+        \item Navigation fluide, état conservé
+        \item Paramètres d'URL = configuration partageable
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \textbf{Inconvénients}
+      \begin{itemize}
+        \item API qui a beaucoup changé entre versions
+        \item Concepts supplémentaires à maîtriser (Routes, Outlet...)
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ================================
+\section{Requêtes HTTP : Axios}
+
+\begin{frame}{Axios}
+  \textbf{Qu'est-ce que c'est ?} Client HTTP basé sur les promesses, pour appeler des API REST.
+
+  \vspace{0.3cm}
+  \textbf{Pourquoi ce choix ?}
+  \begin{itemize}
+    \item Syntaxe simple (\texttt{axios.get(url).then(...)})
+    \item Gestion d'erreurs centralisée (\texttt{.catch})
+    \item Alternative plus pratique que \texttt{fetch} natif (pas de \texttt{.json()} manuel, gestion des erreurs HTTP)
+  \end{itemize}
+
+  \vspace{0.3cm}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \textbf{Avantages}
+      \begin{itemize}
+        \item Code lisible et concis
+        \item Gestion fine des codes d'erreur (ex. 429)
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \textbf{Inconvénients}
+      \begin{itemize}
+        \item Dépendance externe pour une fonctionnalité que \texttt{fetch} couvre presque
+        \item Poids supplémentaire dans le bundle
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ================================
+\section{API de données : Open Trivia DB}
+
+\begin{frame}[fragile]{Open Trivia DB}
+  \textbf{Qu'est-ce que c'est ?} API REST publique et gratuite fournissant des questions de quiz par catégorie/difficulté.
+
+  \vspace{0.3cm}
+  \textbf{Pourquoi ce choix ?}
+  \begin{itemize}
+    \item Gratuite, sans clé API, simple d'usage
+    \item Permet de filtrer par \texttt{category}, \texttt{difficulty}, \texttt{type}
+    \item Liste des catégories disponible via \texttt{api\_category.php}
+  \end{itemize}
+
+  \vspace{0.3cm}
+  \textbf{Exemple d'appel} :
+  \begin{lstlisting}
+GET https://opentdb.com/api.php?amount=10&type=multiple
+    &category=9&difficulty=easy
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}{Open Trivia DB : avantages / inconvénients}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \textbf{Avantages}
+      \begin{itemize}
+        \item Aucune authentification requise
+        \item Données prêtes à l'emploi (questions, réponses, mauvaises réponses)
+        \item Filtrage simple par paramètres d'URL
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \textbf{Inconvénients}
+      \begin{itemize}
+        \item \textbf{Rate limiting} agressif (HTTP 429)
+        \item Texte encodé en entités HTML (\texttt{\&quot;}, \texttt{\&amp;}...)
+        \item Contenu uniquement en \textbf{anglais}
+        \item Pas de garantie de disponibilité (service tiers)
+      \end{itemize}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.3cm}
+  \textbf{Ce que j'ai appris} : gérer les erreurs réseau (429), décoder le HTML reçu, et limiter le nombre d'appels (cache via \texttt{window.\_\_quizData}).
+\end{frame}
+
+% ================================
+\section{État global : Context API}
+
+\begin{frame}{Context API (React)}
+  \textbf{Qu'est-ce que c'est ?} Mécanisme natif de React pour partager un état global sans \og prop drilling \fg{}.
+
+  \vspace{0.3cm}
+  \textbf{Pourquoi ce choix ?}
+  \begin{itemize}
+    \item Besoin de partager le \textbf{thème} et la \textbf{langue} dans toute l'app
+    \item Pas besoin d'une librairie externe (Redux, Zustand...) pour 2 valeurs simples
+    \item Couplé à \texttt{localStorage} pour persister les préférences
+  \end{itemize}
+
+  \vspace{0.3cm}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \textbf{Avantages}
+      \begin{itemize}
+        \item Intégré à React, zéro dépendance
+        \item API simple : \texttt{Provider} + \texttt{useContext}
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \textbf{Inconvénients}
+      \begin{itemize}
+        \item Re-render de tous les consommateurs au changement
+        \item Devient difficile à maintenir si l'état global grossit
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ================================
+\section{Theming \& i18n}
+
+\begin{frame}[fragile]{Variables CSS pour le mode sombre}
+  \textbf{Approche} : variables CSS (\texttt{--bg-color}, \texttt{--text-color}, \texttt{--accent-color}...) redéfinies sous \texttt{[data-theme="dark"]}.
+
+  \begin{lstlisting}
+:root { --bg-color: #f0f4ff; --text-color: #2c3e50; }
+[data-theme="dark"] { --bg-color: #1a1d24; --text-color: #f0f0f0; }
+  \end{lstlisting}
+
+  \vspace{0.3cm}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \textbf{Avantages}
+      \begin{itemize}
+        \item Pas de librairie CSS-in-JS
+        \item Changement de thème instantané (1 attribut HTML)
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \textbf{Inconvénients}
+      \begin{itemize}
+        \item Nécessite de revoir toutes les couleurs codées en dur
+        \item Pas de typage / autocomplétion
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Internationalisation maison}
+  \textbf{Approche} : dictionnaire JS (\texttt{translations.js}) + fonction \texttt{t(cle)} via \texttt{LanguageContext}.
+
+  \vspace{0.3cm}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \textbf{Avantages}
+      \begin{itemize}
+        \item Très léger, aucune dépendance (vs. i18next)
+        \item Suffisant pour 2 langues et peu de textes
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \textbf{Inconvénients}
+      \begin{itemize}
+        \item Pas de pluriels, formats de dates, etc.
+        \item Le contenu de l'API (questions) reste en anglais
+      \end{itemize}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.3cm}
+  \textbf{Ce que j'ai appris} : structurer des clés imbriquées (\texttt{quiz.scorePerfect}) et garder la traduction synchronisée avec l'UI.
+\end{frame}
+
+% ================================
+\section{Manette : Gamepad API}
+
+\begin{frame}{Gamepad API}
+  \textbf{Qu'est-ce que c'est ?} API web native (\texttt{navigator.getGamepads()}) pour lire l'état des manettes connectées.
+
+  \vspace{0.3cm}
+  \textbf{Pourquoi ce choix ?}
+  \begin{itemize}
+    \item Aucune librairie nécessaire, support natif des navigateurs
+    \item Permet de naviguer/sélectionner les réponses sans clavier/souris
+  \end{itemize}
+
+  \vspace{0.3cm}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \textbf{Avantages}
+      \begin{itemize}
+        \item Expérience originale et ludique
+        \item API simple, basée sur du \textit{polling}
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \textbf{Inconvénients}
+      \begin{itemize}
+        \item Pas d'événements : il faut \textit{poller} via \texttt{requestAnimationFrame}
+        \item Mappings de boutons variables selon les manettes
+        \item Gestion du \og cooldown \fg{} pour éviter les répétitions
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ================================
+\section{Bilan}
+
+\begin{frame}{Ce que j'ai appris}
+  \begin{itemize}
+    \item Structurer une app React en pages / composants / contextes
+    \item Gérer un état complexe (score, timer, historique) avec des hooks
+    \item Déboguer des effets de bord et des problèmes de \textit{stale state}
+    \item Consommer une API REST tierce avec ses contraintes (rate limiting, encodage)
+    \item Mettre en place un système de thème et d'internationalisation léger, sans librairie lourde
+    \item Utiliser une API navigateur peu courante (Gamepad)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Pistes d'évolution}
+  \begin{itemize}
+    \item Authentification (Firebase Auth)
+    \item Sauvegarde des scores / classement (Firestore)
+    \item Mode multijoueur, sons, animations
+  \end{itemize}
+
+  \vspace{1cm}
+  \centering \Large Merci pour votre attention !
+\end{frame}
+
+\end{document}
