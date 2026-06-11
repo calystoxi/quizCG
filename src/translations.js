@@ -1,7 +1,7 @@
 export const translations = {
   fr: {
     home: {
-      title: "Bienvenue au quiz de culture générale",
+      title: "Bienvenue au Quiz de Culture Générale",
       description: "Testez vos connaissances avec 10 questions variées. Bonne chance !",
       startButton: "Commencer le quiz",
     },
@@ -23,7 +23,7 @@ export const translations = {
       nextButton: "Question suivante",
       finishButton: "Terminer",
       score: "Score",
-      scorePerfect: "Parfait ! Vous êtes un expert de la culture générale !",
+      scorePerfect: "Parfait ! Vous êtes un expert de la culture générale ! 🎉",
       scoreGood: "Bravo, très bon score ! Continuez comme ça.",
       scoreOk: "Pas mal, mais vous pouvez faire mieux.",
       scoreLow: "C'est un début, n'hésitez pas à rejouer pour progresser !",
@@ -59,7 +59,7 @@ export const translations = {
       nextButton: "Next question",
       finishButton: "Finish",
       score: "Score",
-      scorePerfect: "Perfect! You're a general knowledge expert!",
+      scorePerfect: "Perfect! You're a general knowledge expert! 🎉",
       scoreGood: "Great job, very good score! Keep it up.",
       scoreOk: "Not bad, but you can do better.",
       scoreLow: "It's a start, feel free to try again to improve!",
