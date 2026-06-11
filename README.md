@@ -17,7 +17,7 @@ Une application web de quiz de culture générale développée avec React. L'uti
 1. Cloner le projet :
 
    ```bash
-   to do
+   https://github.com/calystoxi/quizCG
    ```
 
 2. Installer les dépendances :
