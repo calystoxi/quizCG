@@ -6,7 +6,7 @@ import useGamepadControls from "./useGamepad";
 import { useLanguage } from "../context/LanguageContext";
 import "./quiz.css";
 
-const TIME_PER_QUESTION = 20;
+const TIME_PER_QUESTION = 10;
 
 export default function Quiz() {
   const [questions, setQuestions] = useState([]);
