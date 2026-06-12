@@ -36,12 +36,13 @@ Une application web de quiz de culture générale développée avec React. L'uti
 
 ## 3. Objectifs
 
-- Permettre à un·e utilisateur·rice de configurer son quiz (catégorie et difficulté) avant de commencer.
-- Permettre à un·e utilisateur·rice de répondre à une série de questions à choix multiple dans un temps limité.
-- Permettre à un·e utilisateur·rice de consulter son score et un récapitulatif détaillé de ses réponses en fin de partie.
-- Permettre à un·e utilisateur·rice de rejouer rapidement, avec les mêmes paramètres ou en changeant de thème/difficulté.
-- Permettre à un·e utilisateur·rice de personnaliser l'affichage (mode sombre/clair) et la langue de l'interface (FR/EN).
-- Permettre à un·e utilisateur·rice de naviguer dans le quiz à l'aide d'une manette.
+Permettre à un·e utilisateur·rice de :
+- configurer son quiz (catégorie et difficulté) avant de commencer.
+- répondre à une série de questions à choix multiple dans un temps limité.
+- consulter son score et un récapitulatif détaillé de ses réponses en fin de partie.
+- rejouer rapidement, avec les mêmes paramètres ou en changeant de thème/difficulté.
+- personnaliser l'affichage (mode sombre/clair) et la langue de l'interface (FR/EN).
+- naviguer dans le quiz à l'aide d'une manette.
 
 ## 4. Fonctionnalités
 
